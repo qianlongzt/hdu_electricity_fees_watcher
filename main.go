@@ -19,24 +19,21 @@ var (
 )
 
 func main() {
-	// room := os.Args[1]
-	// fmt.Println(elec.GetInfo(elec.GetIDs(room)))
 	flag.Parse()
 	if *flagToken == "" {
 		log.Panic("telegram api token can't empty")
-		return
 	}
 	db, err := database.NewDb(*flagDbpath)
 	if err != nil {
 		log.Panic(err)
-		return
 	}
 	bot, err := tgbotapi.NewBotAPI(*flagToken)
 	if err != nil {
 		log.Panic(err)
-		return
 	}
 	bot.Debug = true
+
+	CronRun(db, bot)
 
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
@@ -69,7 +66,7 @@ func main() {
 			}
 			text = fmt.Sprintf("寝室：%v,\n更新时间: %v,\n余额：%v", info.Community+info.Building+info.Floor+info.Room, info.FreshTime, info.Roaming)
 			if uif.IsSubscribed {
-				text += fmt.Sprintf("\n订阅了提醒，将在每日 21 点，且余额低于 %v 元 提醒你", uif.MinLevel)
+				text += fmt.Sprintf("\n\n你订阅了提醒，将在每日 21 点，且余额低于 %v 元 提醒你", uif.MinLevel)
 			}
 		case "room":
 			bid, fid, rid := elec.GetIDs(args)

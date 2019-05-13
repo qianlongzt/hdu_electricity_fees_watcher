@@ -71,7 +71,7 @@ func (d *DB) ReadAllSubed() []UserInfo {
 			re = append(re, u)
 		}
 	}
-	return []UserInfo{}
+	return re
 }
 
 //ReadAll 获取所有用户信息
