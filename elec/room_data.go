@@ -1,4 +1,4 @@
-package main
+package elec
 
 import (
 	"encoding/json"

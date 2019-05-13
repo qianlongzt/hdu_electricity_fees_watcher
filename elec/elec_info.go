@@ -1,4 +1,4 @@
-package main
+package elec
 
 import (
 	"errors"
@@ -9,8 +9,8 @@ import (
 	"time"
 )
 
-//ElecInfo 电费信息
-type ElecInfo struct {
+//Info 电费信息
+type Info struct {
 	FreshTime string
 	Roaming   string
 	Community string
@@ -30,7 +30,7 @@ func buildURL(buildingID string, floorID string, roomID string) string {
 	return fmt.Sprintf(elecTemp, buildingID, floorID, roomID)
 }
 
-func getElectInfoFromWeb(buildingID string, floorID string, roomID string) (ret ElecInfo, err error) {
+func GetInfo(buildingID string, floorID string, roomID string) (ret Info, err error) {
 	url := buildURL(buildingID, floorID, roomID)
 
 	timeout := time.Duration(3 * time.Second)
@@ -49,7 +49,7 @@ func getElectInfoFromWeb(buildingID string, floorID string, roomID string) (ret 
 	return getElectInfoFromString(string(t))
 }
 
-func getElectInfoFromString(raw string) (ret ElecInfo, err error) {
+func getElectInfoFromString(raw string) (ret Info, err error) {
 	data2 := re.FindAllStringSubmatch(raw, -1)
 	if len(data2) != 1 {
 		return ret, errors.New("no match")
