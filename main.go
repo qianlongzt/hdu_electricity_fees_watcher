@@ -16,6 +16,7 @@ import (
 var (
 	flagToken  = flag.String("token", "", "telegram bot api token")
 	flagDbpath = flag.String("dir", "./dir", "directory location to databse")
+	flagDebug  = flag.Bool("debug", false, "bot debug")
 )
 
 func main() {
@@ -31,7 +32,9 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	bot.Debug = true
+	if *flagDebug {
+		bot.Debug = true
+	}
 
 	CronRun(db, bot)
 
